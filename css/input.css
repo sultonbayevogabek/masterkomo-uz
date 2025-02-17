@@ -1,5 +1,8 @@
+/*************************
+    Tailwind setup
+**************************/
+
 @import "tailwindcss";
-@import url('custom.css');
 
 @theme {
   --breakpoint-*: initial;
@@ -41,4 +44,6 @@
   --breakpoint-1900px: 1900px;
 }
 
-
+/*************************
+    Custom styles
+**************************/
