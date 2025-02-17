@@ -439,6 +439,11 @@
       font-size: 28px;
     }
   }
+  .\38 00px\:text-\[36px\] {
+    @media (width >= 800px) {
+      font-size: 36px;
+    }
+  }
   .\38 00px\:text-\[40px\] {
     @media (width >= 800px) {
       font-size: 40px;
@@ -512,6 +517,11 @@
   .\31 200px\:text-\[36px\] {
     @media (width >= 1200px) {
       font-size: 36px;
+    }
+  }
+  .\31 200px\:text-\[40px\] {
+    @media (width >= 1200px) {
+      font-size: 40px;
     }
   }
   .\31 200px\:text-\[50px\] {
