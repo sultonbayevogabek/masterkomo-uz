@@ -116,8 +116,50 @@ body {
   }
 }
 
-.wrapper {
-  @apply w-full 800px:w-4/5 800px:max-w-[1300px] mx-auto;
+@media only screen and (max-width: 1100px) {
+  .main {
+    background-image: url(../img/bg-main-mobile@1x.jpg);
+    background-position: top center;
+  }
+
+  .bg-telegram {
+  }
 }
 
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  @media only screen and (max-width: 1100px) {
+    .main {
+      background-image: url(../img/bg-main-mobile@2x.jpg);
+      background-position: top center;
+    }
+
+    .bg-telegram {
+    }
+  }
+}
+
+.wrapper {
+  @apply w-full 1100px:w-4/5 max-w-[1320px] mx-auto px-[15px];
+}
+
+.button-animate::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(45deg);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
 
