@@ -47,3 +47,77 @@
 /*************************
     Custom styles
 **************************/
+
+@font-face {
+  font-family: 'SF-Pro';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../fonts/sf_pro_300.woff2') format("woff2")
+}
+
+@font-face {
+  font-family: 'SF-Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/sf_pro_400.woff2') format("woff2")
+}
+
+@font-face {
+  font-family: 'SF-Pro';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/sf_pro_500.woff2') format("woff2")
+}
+
+@font-face {
+  font-family: 'SF-Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/sf_pro_600.woff2') format("woff2")
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/bebas_neue.woff2') format("woff2")
+}
+
+body {
+  font-family: 'SF Pro', sans-serif;
+  color: #2C0815;
+  @apply bg-cover bg-no-repeat bg-right-top;
+}
+
+.font-bebas {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.main {
+  background-image: url('../img/bg-main@1x.jpg');
+}
+
+.telegram {
+  background-image: url('../img/bg-telegram@1x.jpg');
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  .main {
+    background-image: url(../img/bg-main@2x.jpg)
+  }
+
+  .bg-telegram {
+    background-image: url(../img/bg-telegram@2x.jpg)
+  }
+}
+
+.wrapper {
+  @apply w-full 800px:w-4/5 800px:max-w-[1300px] mx-auto;
+}
+
+
