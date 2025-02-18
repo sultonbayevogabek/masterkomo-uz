@@ -120,7 +120,7 @@ body {
   .main {
     background-image: url(../img/bg-main-mobile@1x.jpg);
     background-position: top center;
-    background-size: contain;
+    background-size: cover;
   }
 
   .bg-telegram {
@@ -143,7 +143,13 @@ body {
   @apply w-full 1100px:w-4/5 max-w-[1320px] mx-auto px-[10px];
 }
 
-.button-animate::before {
+.main-button {
+  font-family: 'Bebas Neue', sans-serif;
+  cursor: pointer;
+  @apply relative overflow-hidden rounded-full uppercase h-[60px] 800px:h-[80px] 1200px:h-[100px] bg-[#990C3D] text-[#fff] text-[28px] 800px:text-[32px] 1200px:text-[40px] cursor-pointer;
+}
+
+.main-button::before {
   content: '';
   position: absolute;
   top: -50%;
