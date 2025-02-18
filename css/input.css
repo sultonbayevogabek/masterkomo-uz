@@ -10,7 +10,6 @@
   --default-*: initial;
   --perspective-*: initial;
   --drop-*: initial;
-  --animate-*: initial;
   --shadow-*: initial;
   --color-*: initial;
   --container-*: initial;
@@ -124,6 +123,8 @@ body {
   }
 
   .bg-telegram {
+    background-color: rgb(229, 219, 223);
+    background-image: none;
   }
 }
 
@@ -135,6 +136,8 @@ body {
     }
 
     .bg-telegram {
+      background-color: rgb(229, 219, 223);
+      background-image: none;
     }
   }
 }
@@ -149,7 +152,13 @@ body {
   @apply relative overflow-hidden rounded-full uppercase h-[70px] 800px:h-[80px] 1200px:h-[100px] bg-[#990C3D] text-[#fff] text-[28px] 800px:text-[32px] 1200px:text-[40px] cursor-pointer;
 }
 
-.main-button::before {
+.submit-button {
+  font-family: 'Bebas Neue', sans-serif;
+  cursor: pointer;
+  @apply relative w-full overflow-hidden rounded-full uppercase h-[60px] 800px:h-[70px] 1200px:h-[70px] bg-[#990C3D] text-[#fff] text-[24px] 800px:text-[28px] 1200px:text-[32px] cursor-pointer;
+}
+
+.main-button::before, .submit-button::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -159,6 +168,10 @@ body {
   background: rgba(255, 255, 255, 0.1);
   transform: rotate(45deg);
   animation: shine 2s infinite;
+}
+
+.shadow {
+  box-shadow: 0 9px 18px 0 #F1E9EC;
 }
 
 @keyframes shine {
