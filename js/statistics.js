@@ -45,13 +45,13 @@ class Statistics {
           return 'Windows 8';
         }
         if (/Mac OS X/.test(userAgent)) {
-          return `MacOS ${ userAgent.match(/Mac OS X ([\d_]+)/)?.[1].replace(/_/g, '.') }`;
+          return `MacOS ${userAgent.match(/Mac OS X ([\d_]+)/)?.[1].replace(/_/g, '.')}`;
         }
         if (/Android/.test(userAgent)) {
-          return `Android ${ userAgent.match(/Android ([\d\.]+)/)?.[1] }`;
+          return `Android ${userAgent.match(/Android ([\d\.]+)/)?.[1]}`;
         }
         if (/iPhone OS/.test(userAgent)) {
-          return `iOS ${ userAgent.match(/iPhone OS ([\d_]+)/)?.[1].replace(/_/g, '.') }`;
+          return `iOS ${userAgent.match(/iPhone OS ([\d_]+)/)?.[1].replace(/_/g, '.')}`;
         }
         if (/Linux/.test(userAgent)) {
           return 'Linux';
@@ -61,21 +61,21 @@ class Statistics {
 
       const browserInfo = (() => {
         if (/Chrome/.test(userAgent) && !/Edge/.test(userAgent)) {
-          return `Chrome ${ userAgent.match(/Chrome\/([\d\.]+)/)?.[1] }`;
+          return `Chrome ${userAgent.match(/Chrome\/([\d\.]+)/)?.[1]}`;
         }
         if (/Edge/.test(userAgent)) {
-          return `Edge ${ userAgent.match(/Edg\/([\d\.]+)/)?.[1] }`;
+          return `Edge ${userAgent.match(/Edg\/([\d\.]+)/)?.[1]}`;
         }
         if (/Firefox/.test(userAgent)) {
-          return `Firefox ${ userAgent.match(/Firefox\/([\d\.]+)/)?.[1] }`;
+          return `Firefox ${userAgent.match(/Firefox\/([\d\.]+)/)?.[1]}`;
         }
         if (/Safari/.test(userAgent) && !/Chrome/.test(userAgent)) {
-          return `Safari ${ userAgent.match(/Version\/([\d\.]+)/)?.[1] }`;
+          return `Safari ${userAgent.match(/Version\/([\d\.]+)/)?.[1]}`;
         }
         return 'Unknown Browser';
       })();
 
-      const screenSize = `${ window.screen.width }x${ window.screen.height }`;
+      const screenSize = `${window.screen.width}x${window.screen.height}`;
       const isRetina = window.devicePixelRatio > 1;
 
       const screenInches = (() => {
@@ -132,7 +132,7 @@ class Statistics {
     return uuid;
   }
 
-  async onAction(DB_URL, action, data = { userId: this.userId, time: this.time }) {
+  async onAction(DB_URL, action, data = {userId: this.userId, time: this.time}) {
     if (this.checkAction(action)) {
       return;
     }
@@ -144,6 +144,7 @@ class Statistics {
 
     response = await response.json()
     if (response && response.name) {
+      console.log(action)
       this.recordAction(action)
     }
   }
@@ -176,6 +177,22 @@ class Statistics {
 
   async onClickTgBtn() {
     await this.onAction(this.CLICKED_TG_BTN_DB, 'hasClickedTgBtn');
+  }
+
+  async getStatisticsData() {
+    return (await Promise.all([
+      (await fetch(this.ENTERED_DB)).json(),
+      (await fetch(this.CLICKED_REG_BTN_DB)).json(),
+      (await fetch(this.SUBMITTED_FORM_DB)).json(),
+      (await fetch(this.REGISTERED_DB)).json(),
+      (await fetch(this.CLICKED_TG_BTN_DB)).json(),
+    ])).map(dbData => {
+      const data = [];
+      for (const dbKey in dbData) {
+        data.push(dbData[dbKey]);
+      }
+      return data;
+    })
   }
 }
 

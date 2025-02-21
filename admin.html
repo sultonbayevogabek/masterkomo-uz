@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foydalanuvchi Statistikasi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-6xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Foydalanuvchi Faolligi Statistikasi</h1>
+
+  <!-- Sana filterlari -->
+  <div class="bg-white p-4 rounded-lg shadow mb-6">
+    <div class="flex space-x-4 items-center">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Boshlanish sanasi</label>
+        <input type="date" id="startDate" class="mt-1 p-2 border rounded-md">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Tugash sanasi</label>
+        <input type="date" id="endDate" class="mt-1 p-2 border rounded-md">
+      </div>
+      <button id="filterBtn" class="px-4 py-2 bg-blue-500 text-white rounded-md mt-5">
+        Filterlash
+      </button>
+    </div>
+  </div>
+
+  <!-- Statistika jadvali -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full">
+      <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Ko'rsatkich
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Soni
+        </th>
+      </tr>
+      </thead>
+      <tbody id="statsTable" class="bg-white divide-y divide-gray-200">
+      <!-- JavaScript tomonidan to'ldiriladi -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="js/statistics.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
