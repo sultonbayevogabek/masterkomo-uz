@@ -1,19 +1,68 @@
-'use strict';
+let originalData = [];  // Barcha ma'lumotlarni saqlash uchun
 
-const statistics = new Statistics();
+const filterBtn = document.getElementById('filterBtn');
+const loadingSpinner = document.getElementById('loadingSpinner');
+const tableLoader = document.getElementById('tableLoader');
+const errorMessage = document.getElementById('errorMessage');
+const errorText = document.getElementById('errorText');
+const statsTable = document.getElementById('statsTable');
 
-const data = {
-  pageVisits: [],
-  registrationClicks: [],
-  dataSubmissions: [],
-  completedRegistrations: [],
-  telegramSubscriptions: []
-};
+function setLoading(isLoading) {
+  loadingSpinner.classList.toggle('hidden', !isLoading);
+  tableLoader.classList.toggle('hidden', !isLoading);
+  filterBtn.disabled = isLoading;
+  statsTable.classList.toggle('hidden', isLoading);
+}
 
-// Statistikani hisoblash
-async function calculateStats(startDate, endDate) {
-  const start = startDate ? new Date(startDate).getTime() : 0;
-  const end = endDate ? new Date(endDate).getTime() : Infinity;
+function showError(message) {
+  errorText.textContent = message;
+  errorMessage.classList.remove('hidden');
+  setTimeout(() => {
+    errorMessage.classList.add('hidden');
+  }, 5000);
+}
+
+// Ma'lumotlarni sanaga qarab filterlash
+function filterDataByDate(data, startDate, endDate) {
+  console.log(startDate, endDate);
+  const startTimestamp = startDate ? new Date(new Date(startDate).setHours(0, 0, 1)).getTime() : 0;
+  const endTimestamp = endDate ? new Date(new Date(endDate).setHours(0, 0, 0, 0)).getTime() + (24 * 60 * 60 * 1000 - 1) : Infinity;
+
+  return data.map(categoryData =>
+    categoryData.filter(item =>
+      item.time >= startTimestamp && item.time <= endTimestamp
+    )
+  );
+}
+
+async function fetchData() {
+  try {
+    setLoading(true);
+    errorMessage.classList.add('hidden');
+
+    const statistic = new Statistics();
+    originalData = await statistic.getStatisticsData();
+
+    return originalData;
+  } catch (error) {
+    showError(error.message);
+    return null;
+  } finally {
+    setLoading(false);
+  }
+}
+
+function updateTable(data) {
+  if (!data) {
+    statsTable.innerHTML = `
+                    <tr>
+                        <td colspan="2" class="px-6 py-4 text-center text-gray-500">
+                            Ma'lumotlar mavjud emas
+                        </td>
+                    </tr>
+                `;
+    return;
+  }
 
   const [
     pageVisits,
@@ -21,63 +70,46 @@ async function calculateStats(startDate, endDate) {
     dataSubmissions,
     completedRegistrations,
     telegramSubscriptions
-  ] = await statistics.getStatisticsData()
+  ] = data;
 
-  data.pageVisits = pageVisits;
-  data.registrationClicks = registrationClicks;
-  data.dataSubmissions = dataSubmissions;
-  data.completedRegistrations = completedRegistrations;
-  data.telegramSubscriptions = telegramSubscriptions;
+  const rows = [
+    {name: 'Sahifaga kirganlar', value: pageVisits.length},
+    {name: 'Ro\'yxatdan o\'tish tugmasini bosganlar', value: registrationClicks.length},
+    {name: 'Ma\'lumotlarini yuborganlar', value: dataSubmissions.length},
+    {name: 'Ro\'yxatdan o\'tganlar', value: completedRegistrations.length},
+    {name: 'Obuna bo\'lish tugmasini bosganlar', value: telegramSubscriptions.length}
+  ];
 
-
-  const stats = {
-    pageVisits: data.pageVisits.filter(item => item.time >= start && item.time <= end).length,
-    registrationClicks: data.registrationClicks.filter(item => item.time >= start && item.time <= end).length,
-    dataSubmissions: data.dataSubmissions.filter(item => item.time >= start && item.time <= end).length,
-    completedRegistrations: data.completedRegistrations.filter(item => item.time >= start && item.time <= end).length,
-    telegramSubscriptions: data.telegramSubscriptions.filter(item => item.time >= start && item.time <= end).length
-  };
-
-  return stats;
+  statsTable.innerHTML = rows.map(row => `
+                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${row.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-semibold">${row.value}</td>
+                </tr>
+            `).join('');
 }
 
-// Jadval yangilash
-async function updateTable(stats) {
-  const tbody = document.getElementById('statsTable');
-  tbody.innerHTML = `
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Saytga kirganlar</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stats.pageVisits}</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Ro'yxatdan o'tish tugmasini bosganlar</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stats.registrationClicks}</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Ma'lumotlarini yuborganlar</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stats.dataSubmissions}</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Ro'yxatdan o'tganlar</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stats.completedRegistrations}</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Telegram kanalga obuna bo'lganlar</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stats.telegramSubscriptions}</td>
-                </tr>
-            `;
-}
-
-// Filter tugmasi bosilganda
-document.getElementById('filterBtn').addEventListener('click', async () => {
+filterBtn.addEventListener('click', () => {
   const startDate = document.getElementById('startDate').value;
   const endDate = document.getElementById('endDate').value;
-  const stats = await calculateStats(startDate, endDate);
-  await updateTable(stats);
+
+  if (!startDate || !endDate) {
+    showError('Iltimos, boshlanish va tugash sanalarini tanlang');
+    return;
+  }
+
+  if (new Date(startDate) > new Date(endDate)) {
+    showError('Boshlanish sanasi tugash sanasidan katta bo\'lishi mumkin emas');
+    return;
+  }
+
+  const filteredData = filterDataByDate(originalData, startDate, endDate);
+  updateTable(filteredData);
 });
 
-(async () => {
-  const stats = await calculateStats();
-  await updateTable(stats);
-})()
-
+// Sahifa yuklanganda boshlang'ich ma'lumotlarni olish
+window.addEventListener('load', async () => {
+  const data = await fetchData();
+  if (data) {
+    updateTable(data);
+  }
+});
