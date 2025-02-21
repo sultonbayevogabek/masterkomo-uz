@@ -60,15 +60,18 @@ try {
 
   startCountdown(119);
 
+  const statistics = new Statistics();
+
   const registerButtons = document.querySelectorAll('[data-main-button]');
   const modalBackdrop = document.querySelector('[data-modal-backdrop]');
   const modalCloserElements = document.querySelectorAll('[data-modal-close]');
   const form = document.querySelector('[data-form]');
   const formAlert = document.querySelector('[data-form-alert]');
 
-  registerButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      modalBackdrop.classList.remove('hidden')
+  registerButtons.forEach(async button => {
+    button.addEventListener('click', async () => {
+      modalBackdrop.classList.remove('hidden');
+      await statistics.onClickRegBtn();
     })
   })
 
@@ -112,6 +115,8 @@ try {
     if (name.length && phone?.length === 9) {
       submitButton.setAttribute('disabled', true);
       submitButton.textContent = 'Yuborilmoqda...'
+
+      await statistics.onSubmitForm();
 
       localStorage.setItem('user', JSON.stringify({
         name, phone: '+998' + phone, time: new Date().toLocaleString()
