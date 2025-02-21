@@ -1,6 +1,6 @@
 'use strict';
 
-async function register() {
+(async _ => {
   const statistics = new Statistics();
   let user = JSON.parse(localStorage.getItem('user'));
 
@@ -28,7 +28,5 @@ async function register() {
   } else {
     localStorage.removeItem('user');
   }
-}
-
-register();
+})()
 
