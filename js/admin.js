@@ -76,7 +76,7 @@ function updateTable(data) {
     {name: 'Sahifaga kirganlar', value: pageVisits.length},
     {name: 'Ro\'yxatdan o\'tish tugmasini bosganlar', value: registrationClicks.length},
     {name: 'Ma\'lumotlarini yuborganlar', value: dataSubmissions.length},
-    {name: 'Ro\'yxatdan o\'tganlar', value: completedRegistrations.length},
+    // {name: 'Ro\'yxatdan o\'tganlar', value: completedRegistrations.length},
     {name: 'Obuna bo\'lish tugmasini bosganlar', value: telegramSubscriptions.length}
   ];
 
