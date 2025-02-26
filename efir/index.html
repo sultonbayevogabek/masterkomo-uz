@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function () {
+      var videoUrl = "https://youtube.com/live/-5re8awfhAM";
+
+      // Check for iOS devices and redirect
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+        window.location.href = videoUrl;
+      }
+      // Check for Android devices and redirect using Intent
+      else if (/android/i.test(navigator.userAgent)) {
+        window.location.href =
+          "intent://www.youtube.com/live/-5re8awfhAM" + "#Intent;package=com.google.android.youtube;scheme=https;end;";
+      }
+      // Fallback for other devices
+      else {
+        window.location.href = videoUrl;
+      }
+    })();
+  </script>
+</head>
+<body>
+
+</body>
+</html>
