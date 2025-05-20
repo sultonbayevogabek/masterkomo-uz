@@ -4,9 +4,12 @@
   const statistics = new Statistics();
   let user = JSON.parse(localStorage.getItem('user'));
 
-  document.querySelector('#joinToChannel')?.addEventListener('click', async () => {
+  const joinButton = document.querySelector('#joinToChannel')
+  joinButton?.addEventListener('click', async (e) => {
+    joinButton.disabled = true;
     await statistics.onClickTgBtn();
-    window.location.href = 'https://t.me/+9RjoYMCF4G41NjFi';
+    joinButton.disabled = false;
+    window.location.href = 'https://t.me/+QBFjtP7IZZ4yNWEy';
   })
 
   if (user && user?.name && user?.phone && user?.time) {
@@ -18,7 +21,7 @@
     formData.append(`Foydalanuvchi ID`, statistics.userId);
     formData.append(`Timestamp`, statistics.time?.toString());
 
-    let response = await fetch('https://script.google.com/macros/s/AKfycbwtTBIhtsSaxmKXTnPFMahevQntCzvlu-TIMehXUoegOEEu_raxbFzKJhifAKqbUxISPA/exec', {
+    let response = await fetch('https://script.google.com/macros/s/AKfycbwKwviEj4WlIckY7CJD6Q7oVNiC-LJQsXgIYf1pguKJEbEL3i88C7mBb0yQY06vSmU7/exec', {
       method: 'POST',
       body: formData
     })
