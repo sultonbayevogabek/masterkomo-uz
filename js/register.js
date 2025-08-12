@@ -10,7 +10,7 @@
     formData.append('Telefon raqami', user?.phone);
     formData.append(`Ro'yxatdan o'tgan vaqti`, user?.time);
 
-    let response = await fetch('https://script.google.com/macros/s/AKfycbzdFo3fILejY6EjjJyLjxPPcVv_WwEz-ikGsCa4GfqATLXldok84bSDsBFCEqngeYYw/exec', {
+    let response = await fetch('https://script.google.com/macros/s/AKfycbxFjEPrbYiYev67aJQTVIfmaZtjHkmkHca3DZSWtjLoTm-I201swftolKazSsOMwbjj/exec', {
       method: 'POST',
       body: formData
     })
